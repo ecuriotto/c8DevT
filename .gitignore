@@ -1,0 +1,11 @@
+.idea/
+.DS_Store
+
+java/target
+
+*.iml
+
+# Nodejs
+nodejs/node_modules/
+nodejs/config/application.properties
+
