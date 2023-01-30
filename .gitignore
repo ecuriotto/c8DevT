@@ -1,0 +1,4 @@
+.vscode/
+src/main/resources/*
+target
+src/main/.DS_Store
