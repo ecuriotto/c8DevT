@@ -27,6 +27,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+  <groupId>io.camunda</groupId>
+  <artifactId>spring-zeebe-starter</artifactId>
+  <version>8.2.1</version>
+</dependency>
 	</dependencies>
 
 	<build>
