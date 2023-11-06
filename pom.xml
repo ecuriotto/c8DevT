@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<spring-boot.version>2.7.4</spring-boot.version>
+		<spring-boot.version>2.7.7</spring-boot.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
@@ -27,8 +27,8 @@
 	<dependencies>
 		<!-- INSERT YOUR JAVA DEPENDENCIES HERE!!!!!!!!!!!!!!!-->
 		<dependency>
-			<groupId>io.camunda</groupId>
-			<artifactId>spring-zeebe-starter</artifactId>
+			<groupId>io.camunda.spring</groupId>
+			<artifactId>spring-boot-starter-camunda</artifactId>
 			<version>8.3.1</version>
 		</dependency>
 	</dependencies>
