@@ -1,4 +1,4 @@
-package org.camunda.training.paymentapp;
+package org.camunda.training.payment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
