@@ -22,8 +22,8 @@ public class CreditCardChargingWorker {
 Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
 @JobWorker(type = "credit-card-charging", autoComplete = false)
-  public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
-    LOGGER.info("Task definition type: " + job.getType());
+public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
+LOGGER.info("Task definition type: " + job.getType());
 
     Map variables = job.getVariablesAsMap();
     String cardNumber = variables.get("cardNumber").toString();
@@ -36,8 +36,11 @@ Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
       jobClient.newCompleteCommand(job).send().join();
     } catch (InvalidCreditCardException e) {
-      jobClient.newFailCommand(job).retries(job.getRetries() - 1).errorMessage(e.getMessage()).send().join();
+      jobClient.newThrowErrorCommand(job).errorCode("creditCardChargeError").send().join();
+    } catch (Exception e) {
+      jobClient.newFailCommand(job).retries(3).errorMessage(e.getMessage()).send().join();
     }
-  }
+
+}
 
 }
