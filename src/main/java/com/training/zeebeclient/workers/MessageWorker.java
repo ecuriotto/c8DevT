@@ -35,7 +35,7 @@ Logger LOGGER = LoggerFactory.getLogger(MessageWorker.class);
 
     jobClient.newCompleteCommand(job).variables(variables).send().join();
 
-    }
+  }
 
   @JobWorker(type = "payment-completion", autoComplete = false)
   public void handlePaymentCompletion(final JobClient jobClient, final ActivatedJob job) {
