@@ -9,5 +9,4 @@ target
 # Nodejs
 nodejs/node_modules/
 nodejs/config/application.properties
-
 src/main/resources/application.properties
