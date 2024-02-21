@@ -1,4 +1,5 @@
 package com.training.zeebeclient.workers;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -27,9 +28,12 @@ public class CreditDeductionWorker {
     double customerCredit = customerService.getCustomerCredit(customerId);
     double openAmount = customerService.deductCredit(customerCredit, orderTotal);
 
-    variables.put("customerCredit", customerCredit);
-    variables.put("openAmount", openAmount);
-    jobClient.newCompleteCommand(job).variables(variables).send().join();
+    
+    Map newVariables = new HashMap();
+    newVariables.put("customerCredit", customerCredit);
+    newVariables.put("openAmount", openAmount);
+
+    jobClient.newCompleteCommand(job).variables(newVariables).send().join();
 
   }
 }
