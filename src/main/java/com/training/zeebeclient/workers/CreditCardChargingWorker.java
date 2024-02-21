@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.training.zeebeclient.exceptions.InvalidCreditCardException;
 import com.training.zeebeclient.services.CreditCardService;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
@@ -21,7 +22,8 @@ public class CreditCardChargingWorker {
 Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
 @JobWorker(type = "credit-card-charging", autoComplete = false)
-public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
+  public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
+    LOGGER.info("Task definition type: " + job.getType());
 
     Map variables = job.getVariablesAsMap();
     String cardNumber = variables.get("cardNumber").toString();
@@ -29,10 +31,13 @@ public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJ
     String expiryDate = variables.get("expiryDate").toString();
     Double amount = Double.valueOf(variables.get("openAmount").toString());
 
-    LOGGER.info("Task definition type: " + job.getType());
-    creditCardService.chargeAmount(cardNumber, cvc, expiryDate, amount);
+    try {
+      new CreditCardService().chargeAmount(cardNumber, cvc, expiryDate, amount);
 
-    jobClient.newCompleteCommand(job).send().join();
+      jobClient.newCompleteCommand(job).send().join();
+    } catch (InvalidCreditCardException e) {
+      jobClient.newFailCommand(job).retries(job.getRetries() - 1).errorMessage(e.getMessage()).send().join();
+    }
+  }
 
-}
 }
